@@ -1,0 +1,26 @@
+---
+import Layouts from "../layouts/Layouts.astro";
+import Nav from "../components/header/Nav.astro";
+import Foot from "../components/header/Foot.astro";
+import { getApiResponse } from "../libs/api-libs";
+import ProductList from "../components/ProductList/ProductList.tsx";
+
+// Use try-catch to handle potential errors in getApiResponse
+let productData;
+try {
+  productData = await getApiResponse("products", "limit=10");
+  console.log("Product data:", productData);
+} catch (error) {
+  console.error("Error fetching product data:", error);
+  productData = []; // Set productData to an empty array if there's an error
+}
+---
+
+<Layouts title="Dasbord">
+  <div>
+    <ProductList client:idle />
+  </div>
+  <div>
+    <Foot />
+  </div>
+</Layouts>
